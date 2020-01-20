@@ -1,0 +1,82 @@
+import java.util.Scanner;
+
+public class Main {
+	public static int n, m, t;
+	public static int a[][] = new int[550][550];
+	public static int dx[] = { 0, 1, 1, 1, 0, 0, -1, -1, -1 };
+	public static int dy[] = { 0, 1, 0, -1, 1, -1, 1, 0, -1 };
+
+	public static int dfs(int x, int y, int t) {
+
+		if (a[x][y] != 1) {
+			return 0;
+		}
+		a[x][y] = 2;
+		t++;
+		for (int i = 1; i <= 8; i++) {
+			if (x + dx[i] >= 0 && y + dy[i] >= 0 && x + dx[i] < n && y + dy[i] < m) {
+				dfs(x + dx[i], y + dy[i], t);
+			}
+		}
+		return 0;
+	}
+
+	public static int check1(int x, int y, int cnt) {
+		if (x + cnt >= n || y + cnt >= m)
+			return 0;
+		for (int i = 1; i <= cnt; i++) {
+			if (a[x][y + i] != 2)
+				return 0;
+			else if (a[x + cnt][y + i] != 2)
+				return 0;
+			else if (a[x + i][y] != 2)
+				return 0;
+			else if (a[x + i][y + cnt] != 2)
+				return 0;
+		}
+		return 1;
+	}
+
+	public static int check2(int x, int y, int cnt) {
+		if (y + cnt >= m || x + cnt * 2 >= n || y - cnt < 0 || a[x + cnt * 2][y] != 2)
+			return 0;
+		for (int i = 1; i <= cnt; i++) {
+			if (a[x + i][y + i] != 2)
+				return 0;
+			else if (a[x + i][y - i] != 2)
+				return 0;
+			else if (a[x + 2 * cnt - i][y - i] != 2)
+				return 0;
+			else if (a[x + 2 * cnt - i][y + i] != 2)
+				return 0;
+		}
+		return 1;
+	}
+
+	public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		int T = s.nextInt();
+		while (T-- > 0) {
+			n = s.nextInt();
+			m = s.nextInt();
+			int ans = 0;
+
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < m; j++) {
+					a[i][j] = s.nextInt();
+				}
+			}
+			for (int i = 0; i < n; i++) 
+				for (int j = 0; j < m; j++) 
+					if (a[i][j] == 1) {
+						t = 0;
+						dfs(i, j, t);
+						if(t%4==0&&t<=4*Math.min(n,m)){
+			                ans+=check1(i,j,t/4);
+			                ans+=check2(i,j,t/4); 
+			            }
+					}
+			System.out.println(ans);
+		}
+	}
+}

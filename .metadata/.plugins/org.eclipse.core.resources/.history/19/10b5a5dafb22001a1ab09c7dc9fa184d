@@ -1,0 +1,42 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+public class Main {
+	public static void main(String[] args) {
+		Scanner s = new Scanner (System.in);
+		String str[] = new String [305];
+		Map <String,Integer> mp = new HashMap<String,Integer>();
+		int i = 0;
+		while(s.hasNext()){
+			str[i] = s.nextLine();
+			String[] names = str[i].split(" ");
+			for(int j = 0;j < names.length;j++){
+				if(mp.containsKey(names[j])){
+					int num = mp.get(names[j]);
+					num++;
+					mp.put(names[j], num);
+				}else{
+					mp.put(names[j], 1);
+				}
+			}
+		}
+		List<Map.Entry<String, Integer>> infoIds =  
+				  new ArrayList<Map.Entry<String, Integer>>(mp.entrySet());
+		Collections.sort(infoIds, new Comparator<Map.Entry<String, Integer>>() {   
+			  public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {   
+			  if(o1.getValue() == o2.getValue())
+			  return (o1.getKey()).toString().compareTo(o2.getKey());
+			  else{
+				  return (o2.getValue() - o1.getValue());
+			  }
+			  }  
+			}); 
+		for(int k = 0;k < infoIds.size();k++){
+			System.out.print(infoIds.get(k)+" "+infoIds.get(k).toString());
+		}
+	}
+}

@@ -1,0 +1,49 @@
+import java.util.*;
+
+public class Main {
+	public static void isLucky(int num) {
+		int[] arr = new int[20];
+		int i = 0;
+		int key1 = 1;
+		int ans = num;
+		while (num != 0) {
+			arr[i] = num % 10;
+			num /= 10;
+			i++;
+		}
+		for(int j = 0;j < i; j++){
+			if(arr[j] != 4 || arr[j] !=7 ){
+				key1 = 0;
+			}
+		}
+		int key2 = 0;
+		if(key1 == 1){
+			for(int k = 0 ; k < i;k++){
+				if(arr[k] == 4){
+					key2++;
+					break;
+				}
+			}
+			for(int k = 0; k < i ;k++){
+				if(arr[k] == 7){
+					key2++;
+					break;
+				}
+			}
+		}
+		if(key2 == 2){
+			System.out.println(ans);
+		}
+	}
+
+	public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		int n = s.nextInt();
+		while (n-- > 0) {
+			int num = s.nextInt();
+			isLucky(num);
+		}
+		s.close();
+	}
+
+}

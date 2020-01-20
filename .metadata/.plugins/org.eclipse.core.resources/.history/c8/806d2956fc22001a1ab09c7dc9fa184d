@@ -1,0 +1,47 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+public class Main {
+	public static void main(String[] args) {
+		Scanner s = new Scanner (System.in);
+		String str[] = new String [305];
+		Map <String,Integer> mp = new HashMap<String,Integer>();
+		int m = 0;
+		while(s.hasNext()){
+			str[m] = s.nextLine();
+			String[] names = str[m].split(" ");
+			for(int j = 0;j < names.length;j++){
+				if(mp.containsKey(names[j])){
+					int num = mp.get(names[j]);
+					num++;
+					mp.put(names[j], num);
+				}else{
+					mp.put(names[j], 1);
+				}
+			}
+			m++;
+		}
+		List<Map.Entry<String, Integer>> infoIds =  
+				  new ArrayList<Map.Entry<String, Integer>>(mp.entrySet());
+		for (int i = 0; i < infoIds.size(); i++) {  
+			  String id = infoIds.get(i).toString();    
+			}
+		
+		Collections.sort(infoIds, new Comparator<Map.Entry<String, Integer>>() {   
+			  public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {   
+			  if(o1.getValue() == o2.getValue())
+			  return (o1.getKey()).toString().compareTo(o2.getKey());
+			  else{
+				  return (o1.getValue() - o2.getValue());
+			  }
+			  }  
+			}); 
+		for(int k = 0;k < infoIds.size();k++){
+			System.out.println(infoIds.get(k));
+		}
+	}
+}

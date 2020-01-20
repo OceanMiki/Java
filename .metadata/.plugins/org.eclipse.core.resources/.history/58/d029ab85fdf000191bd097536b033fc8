@@ -1,0 +1,38 @@
+import java.util.*;
+
+public class Main {
+	public static void luckySum(int n) {
+		int s = 0, f = 0, i;
+		s = n / 7;
+		if (0 == (n - 7 * s) % 4) {
+			f = (n - 7 * s) / 4;
+		} else
+			while (s-- != 0) {
+				if (0 == (n - 7 * s) % 4) {
+					f = (n - 7 * s) / 4;
+					break;
+				}
+			}
+		if (0 == n || -1 == s) {
+			System.out.print("-1");
+		}
+		for (i = 0; i < f; ++i) {
+			System.out.print("4");
+		}
+		for (i = 0; i < s; ++i) {
+			System.out.print("7");
+		}
+
+		System.out.println();
+
+	}
+
+	public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		int n = s.nextInt();
+		while (n-- > 0) {
+			int sum = s.nextInt();
+			luckySum(sum);
+		}
+	}
+}

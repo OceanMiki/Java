@@ -1,0 +1,194 @@
+
+import java.text.NumberFormat;
+import java.util.*;
+
+class Bank{
+	private int num;
+	private Customer cus[];
+
+	public Bank() {
+		num = 0;
+		cus = new Customer[100];
+	}
+
+	public void addCustomer(String f, String l) {
+		cus[num] = new Customer(f, l);
+		num++;
+	}
+
+	public int getNumOfCustomers() {
+		return num;
+	}
+
+	public Customer getCustomer(int index) {
+		return cus[index];
+	}
+}
+
+class CheckingAccount extends Account {
+	private double interestRate;
+	private double balance;
+
+	public CheckingAccount(double init_balance) {
+		super(init_balance);
+		balance = init_balance;
+		interestRate = 0;
+	}
+
+	public String getType(){
+		return "Checking";
+	}
+	
+	public CheckingAccount(double init_balance, double interest_rate) {
+		super(init_balance);
+		interestRate = interest_rate;
+	}
+	public double getBalance(){
+		return balance;
+	}
+}
+
+class SavingsAccount extends Account{
+	private double interestRate;
+	private double balance = 0;
+
+	public SavingsAccount(double init_balance, double interest_rate) {
+		super(init_balance);
+		balance = init_balance;
+		interestRate = interest_rate;
+	}
+	
+	public double getBalance(){
+		return balance;
+	}
+}
+
+class Customer{
+	private String firstName;
+	private String lastName;
+	private Account account[];
+	
+	int num = 0;
+
+	public Customer(String f, String l) {
+		firstName = f;
+		lastName = l;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+    
+	public void addAccount(CheckingAccount ca){
+		account[num] = ca;
+		num++;
+	}
+	
+	public void addAccount(SavingsAccount sa){
+		account[num] = sa;
+		num++;
+	}
+	
+	public void addAccount(Account ac){
+		account[num] = ac;
+		num++;
+	}
+	
+	public int getNumOfAccounts(){
+		return num;
+	}
+	
+	public Account getAccount(int index){
+		return account[index];
+	}
+
+}
+
+class Account{
+	private double balance;
+
+	public Account(double init_balance) {
+		balance = init_balance;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+}
+
+public class Main {
+
+	public static void main(String[] args) {
+		Bank bank = new Bank();
+		NumberFormat currency_format = NumberFormat.getCurrencyInstance();
+
+		Customer customer;
+		int curCustomer = 0;
+		Scanner s = new Scanner(System.in);
+		int t = s.nextInt();
+		s.nextLine();
+		// Create several customers and their accounts according to data
+		while (t-- > 0) {
+			String f = s.next();
+			String l = s.next();
+			s.nextLine();
+			bank.addCustomer(f, l);
+			customer = bank.getCustomer(curCustomer++);
+			int numAccount = s.nextInt();
+			s.nextLine();
+			while (numAccount-- > 0) {
+				String[] type = s.nextLine().split(" ");
+				double balance;
+				double interesOrProtect;
+				if (type[0] == "C" || type[0] == "c") {
+					balance = Double.parseDouble(type[1]);
+					if (type.length == 3) {
+						interesOrProtect = Double.parseDouble(type[2]);
+						customer.addAccount(new CheckingAccount(balance, interesOrProtect));
+					} else {
+						customer.addAccount(new CheckingAccount(balance));
+						interesOrProtect = Double.parseDouble(type[2]);
+					}
+				} else if (type[0] == "S" || type[0] == "s") {
+					balance = Double.parseDouble(type[1]);
+					interesOrProtect = Double.parseDouble(type[2]);
+					customer.addAccount(new SavingsAccount(balance, interesOrProtect));
+				} else if (type[0] == "A" || type[0] == "a") {
+					int cIndex = Integer.parseInt(type[1]);
+					int aIndex = Integer.parseInt(type[2]);
+					customer.addAccount(bank.getCustomer(cIndex).getAccount(aIndex));
+				}
+			}
+		}
+
+		// Generate a report
+		System.out.println("CUSTOMERS REPORT");
+		System.out.println("================");
+
+		for (int cust_idx = 0; cust_idx < bank.getNumOfCustomers(); cust_idx++) {
+			customer = bank.getCustomer(cust_idx);
+
+			System.out.println();
+			System.out.println("Customer: " + customer.getLastName() + ", " + customer.getFirstName());
+
+			for (int acct_idx = 0; acct_idx < customer.getNumOfAccounts(); acct_idx++) {
+				Account account = customer.getAccount(acct_idx);
+				String account_type = "";
+				
+				boolean result = account instanceof CheckingAccount;
+				if(result){
+					account_type = "Checking";
+				}
+				else{
+					account_type = "Savings";
+				}
+				
+				System.out.println(account_type+" account$"+account.getBalance());
+			}
+		}
+	}
+}

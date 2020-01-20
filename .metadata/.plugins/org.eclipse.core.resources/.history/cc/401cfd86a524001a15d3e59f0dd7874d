@@ -1,0 +1,34 @@
+public class Main 
+{
+	public static void main (String[] args)
+	{
+		Runnable runnable = new PrintMe();
+		Thread first = new Thread(runnable);
+		Thread second = new Thread(runnable);
+		Thread third = new Thread(runnable);
+		
+		first.start();
+		second.start();
+		third.start();
+	}
+}
+
+class PrintMe implements Runnable
+{
+	public void run ()
+	{
+		int cnt = 10;
+		while (cnt-- > 0)
+		{
+			System.out.println(Thread.currentThread().getName());
+			try
+			{
+				Thread.sleep(2000);
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+}

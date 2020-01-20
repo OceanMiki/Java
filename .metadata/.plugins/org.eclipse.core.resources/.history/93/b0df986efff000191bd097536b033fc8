@@ -1,0 +1,41 @@
+import java.util.*;
+
+public class Main {
+	public static int s4,s7;
+	public static void luckySum(int x) {
+		if(x%7==0)
+	    {
+	        s7+=x/7;
+	        return ;
+	    }
+	    if(x==0)
+	    {
+	        return;
+	    }
+	    if(x<0)
+	    {
+	    	System.out.print("-1");
+	        System.exit(0);//直接在函数中退出程序(return 0;) 
+	    }
+	    s4++;
+	    luckySum(x-4);
+	    return ;
+	}
+
+	public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		int n = s.nextInt();
+		while (n-- > 0) {
+			int sum = s.nextInt();
+			luckySum(sum);
+		    for(int i=1;i<=s4;i++)
+		    {
+		    	System.out.print("4");
+		    }
+		    for(int i=1;i<=s7;i++)
+		    {
+		    	System.out.print("7");
+		    }
+		}
+	}
+}

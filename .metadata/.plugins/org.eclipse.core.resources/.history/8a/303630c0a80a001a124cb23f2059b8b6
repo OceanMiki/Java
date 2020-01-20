@@ -1,0 +1,18 @@
+import java.applet.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.*;
+import java.io.*;
+
+public class Main {
+	static int i = 0 , j =0 ;
+    public static void main(String[] args) {
+        int i = 2;
+        {
+        	int j = 3;
+        	System.out.println(i+j);
+        }
+        
+    }
+}
+

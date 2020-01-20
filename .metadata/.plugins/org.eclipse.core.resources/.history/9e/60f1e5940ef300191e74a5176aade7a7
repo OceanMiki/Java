@@ -1,0 +1,84 @@
+import java.util.*;
+
+public class Main {
+	public static int hang[] = new int[50], l[] = new int[5];
+
+	public static int powl(int a, int b) {
+		int ans = 1;
+		while (b-- != 0)
+			ans *= a;
+		return ans;
+	}
+
+	public static boolean Check(String c) {
+		if (c.charAt(0) != 'R')
+			return false;
+		if (!Character.isDigit(c.charAt(1)))
+			return false;
+		for (int i = 2; i < c.length(); i++) {
+			if (c.charAt(i) == 'C')
+				return true;
+		}
+		return false;
+	}
+
+	public static void main(String[] args) {
+		Scanner s = new Scanner(System.in);
+		int n = s.nextInt();
+		s.nextLine();
+		while (n-- > 0) {
+			String c = s.nextLine();
+			int ms = 0;
+			l = new int[5];
+
+			if (Check(c))
+				ms = 1;
+			if (ms != 0) {
+				int zz = 0, tot = 0;
+				for (int i = 1; i <= 2; i++) {
+					while (c.charAt(zz) < '0' || c.charAt(zz) > '9'){
+						zz++;
+					}
+					while (c.charAt(zz) >= '0' && c.charAt(zz) <= '9') {
+						l[i] = l[i] * 10 + c.charAt(zz) - '0';
+						zz++;
+					}
+				}
+				while (l[2] != 0) {
+					tot++;
+					int key = 0;
+					if (l[2] % 26 != 0) {
+						hang[tot] = l[2] % 26;
+					} else {
+						hang[tot] = 26;
+						key = 1;
+					}
+
+					l[2] = l[2] / 26 - key;
+				}
+				for (int i = tot; i >= 1; i--) {
+					System.out.print((char) (hang[i] + 'A' - 1));
+				}
+				System.out.print(l[1]);
+			} else {
+				int zz = 0, tot = 0;
+				while (c.charAt(zz) < '0' || c.charAt(zz) > '9') {
+					hang[++tot] = (int) c.charAt(zz);
+					zz++;
+				}
+				while (c.charAt(zz) >= '0' && c.charAt(zz) <= '9') {
+					l[1] = l[1] * 10 + c.charAt(zz) - '0';
+					zz++;
+				}
+				System.out.print("R" + l[1]);
+				for (int i = tot, j = 1; i >= 1 && j <= tot; i--, j++)
+					l[2] += powl(26, i - 1) * (hang[j] - 'A' + 1);
+				System.out.print("C" + l[2]);
+			}
+			System.out.println();
+		}
+
+		s.close();
+	}
+
+}

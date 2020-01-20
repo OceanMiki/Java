@@ -1,0 +1,74 @@
+import java.util.*;
+
+public class Main {
+	static String x;
+
+	public static void main(String[] args){
+		Scanner s = new Scanner (System.in);
+		int n = s.nextInt();
+		int i;
+	    for(i=1;i<=n;i++)
+	    {
+	        boolean tt=true;
+	        x = s.nextLine();
+	        int l=x.length();
+	        if(x.charAt(0)=='R' && '1'<=x.charAt(1)&&x.charAt(1)<='9')
+	        for(int j=2;j<l;j++)
+	        if(x.charAt(j)=='C') {k=j;tt=false;break;}//判断格式 
+	        if(tt)
+	        {
+	            int a[] = new int[10];
+	            int sum=0,j=0;
+	            while(x.charAt(j)>='A'&&x.charAt(j)<='Z'){
+	            j++;
+	            a[j]=x.charAt(j)-'A'+1;
+	            }
+	            int k=j;
+	            for(int m=1;m <= j;m++)
+	            {
+	                int ans=1;
+	                for(int k=1;k<=j-i;k++)
+	                ans*=26;
+	                sum+=a[i]*ans;
+	                //cout<<sum<<endl;
+
+	            }
+	            cout<<"R";
+	            j--;
+	            for(int i=j+1;i<l;i++)
+	            cout<<x[i];
+	            cout<<"C"<<sum;
+	            cout<<endl;
+	        }
+	        if(!tt)
+	        {
+	            int a,b,x1[10];
+	            a=x[k+1]-'0';b=x[1]-'0';
+	            for(int i=k+2;i<l;i++)
+	            a=a*10+x[i]-'0';
+	            for(int i=2;i<k;i++)
+	            b=b*10+x[i]-'0';
+	            int sum=0,sum1=0;
+	            //cout<<a<<" "<<b<<endl;
+	            int k=0;
+	            while(a!=0)
+	            {
+	                k++;
+	                if(a%26!=0)x1[k]=a%26,a/=26;
+	                //z的特殊判断 
+	                else x1[k]=26,a=a/26-1;
+
+	            }
+	            for(int i=k;i>=1;i--)
+	            {
+	                cout<<char(x1[i]+'A'-1);
+	            }
+	            cout<<b;
+	            cout<<endl;
+	        } 
+	    }
+		
+		s.close();
+	}
+
+}
