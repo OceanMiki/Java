@@ -1,2 +1,2 @@
 Code is like sex.
-It's better when is free.
+It's better when it is free.
